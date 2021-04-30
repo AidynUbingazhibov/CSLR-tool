@@ -1,0 +1,28 @@
+runner: python3 -m stochastic_cslr.runner
+name: $from(config)
+
+# data
+#data_root: /raid/asandygulova/phoenix2014-release/phoenix-2014-multisigner
+data_root: /home/asandygulova/dock/krsl_173_1708
+base_size: [256, 256]
+crop_size: [224, 224]
+
+# model
+dim: 512
+heads: 4
+dropout: 0.1
+p_drop: 0.5
+p_detach: 0.75
+max_num_states: 2
+semantic_layers: 2
+use_sfl: false
+
+batch_size: 16
+
+train:
+  max_epochs: 30
+  lr: "Lambda(lambda e: max(1e-4 * 0.95 ** ((e - 1) // 2), 1e-5), epochwise=True)"
+  save_every: 1
+  validate_every: 1
+  grad_clip_thres: 1.0
+  use_fp16: true
